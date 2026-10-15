@@ -1,0 +1,43 @@
+{
+  "version": 8,
+  "name": "Coastal Erosion Overlay District Zones by erosion zone",
+  "metadata": {
+    "description": "Line color shows the `Zone` column."
+  },
+  "sources": {
+    "data": {
+      "type": "vector"
+    }
+  },
+  "layers": [
+    {
+      "id": "coastal-erosion-overlay-line",
+      "type": "line",
+      "source": "data",
+      "source-layer": "coastal-erosion-overlay",
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": [
+          "match",
+          [
+            "get",
+            "Zone"
+          ],
+          1,
+          "#d73027",
+          2,
+          "#fc8d59",
+          3,
+          "#91bfdb",
+          4,
+          "#4575b4",
+          "#bdbdbd"
+        ],
+        "line-width": 1.6
+      }
+    }
+  ]
+}

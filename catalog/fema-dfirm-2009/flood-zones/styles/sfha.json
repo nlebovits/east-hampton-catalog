@@ -1,0 +1,46 @@
+{
+  "version": 8,
+  "name": "FEMA Flood Zones, 2009: special flood hazard area",
+  "metadata": {
+    "description": "Color shows the `SFHA_TF` column. In a Special Flood Hazard Area (T) or not (F)."
+  },
+  "sources": {
+    "data": {
+      "type": "vector"
+    }
+  },
+  "layers": [
+    {
+      "id": "flood-zones-fill",
+      "type": "fill",
+      "source": "data",
+      "source-layer": "flood-zones",
+      "paint": {
+        "fill-color": [
+          "match",
+          [
+            "get",
+            "SFHA_TF"
+          ],
+          "T",
+          "#d7301f",
+          "F",
+          "#d9d9d9",
+          "#bdbdbd"
+        ],
+        "fill-opacity": 0.75
+      }
+    },
+    {
+      "id": "flood-zones-outline",
+      "type": "line",
+      "source": "data",
+      "source-layer": "flood-zones",
+      "paint": {
+        "line-color": "#ffffff",
+        "line-width": 0.6,
+        "line-opacity": 0.8
+      }
+    }
+  ]
+}

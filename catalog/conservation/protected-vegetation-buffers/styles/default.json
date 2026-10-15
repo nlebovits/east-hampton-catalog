@@ -1,0 +1,35 @@
+{
+  "version": 8,
+  "name": "Protected Vegetation Buffer Areas",
+  "metadata": {
+    "description": "Protected Vegetation Buffer Areas in one color."
+  },
+  "sources": {
+    "data": {
+      "type": "vector"
+    }
+  },
+  "layers": [
+    {
+      "id": "protected-vegetation-buffers-fill",
+      "type": "fill",
+      "source": "data",
+      "source-layer": "protected-vegetation-buffers",
+      "paint": {
+        "fill-color": "#31a354",
+        "fill-opacity": 0.9
+      }
+    },
+    {
+      "id": "protected-vegetation-buffers-outline",
+      "type": "line",
+      "source": "data",
+      "source-layer": "protected-vegetation-buffers",
+      "paint": {
+        "line-color": "#00441b",
+        "line-width": 0.6,
+        "line-opacity": 0.8
+      }
+    }
+  ]
+}

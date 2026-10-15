@@ -1,0 +1,28 @@
+{
+  "version": 8,
+  "name": "FIRM Shoreline, 2009",
+  "metadata": {
+    "description": "FIRM Shoreline, 2009 in one color."
+  },
+  "sources": {
+    "data": {
+      "type": "vector"
+    }
+  },
+  "layers": [
+    {
+      "id": "shoreline-line",
+      "type": "line",
+      "source": "data",
+      "source-layer": "shoreline",
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "#08519c",
+        "line-width": 1.0
+      }
+    }
+  ]
+}

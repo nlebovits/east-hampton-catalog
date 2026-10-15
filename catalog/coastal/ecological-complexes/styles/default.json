@@ -1,0 +1,28 @@
+{
+  "version": 8,
+  "name": "Ecological Complexes",
+  "metadata": {
+    "description": "Ecological Complexes in one color."
+  },
+  "sources": {
+    "data": {
+      "type": "vector"
+    }
+  },
+  "layers": [
+    {
+      "id": "ecological-complexes-line",
+      "type": "line",
+      "source": "data",
+      "source-layer": "ecological-complexes",
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "#31a354",
+        "line-width": 2.0
+      }
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "version": 8,
+  "name": "Agricultural Overlay District",
+  "metadata": {
+    "description": "Agricultural Overlay District in one color."
+  },
+  "sources": {
+    "data": {
+      "type": "vector"
+    }
+  },
+  "layers": [
+    {
+      "id": "agricultural-overlay-fill",
+      "type": "fill",
+      "source": "data",
+      "source-layer": "agricultural-overlay",
+      "paint": {
+        "fill-color": "#78c679",
+        "fill-opacity": 0.8
+      }
+    },
+    {
+      "id": "agricultural-overlay-outline",
+      "type": "line",
+      "source": "data",
+      "source-layer": "agricultural-overlay",
+      "paint": {
+        "line-color": "#238443",
+        "line-width": 0.6,
+        "line-opacity": 0.8
+      }
+    }
+  ]
+}

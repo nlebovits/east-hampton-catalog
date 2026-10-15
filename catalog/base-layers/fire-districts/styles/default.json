@@ -1,0 +1,60 @@
+{
+  "version": 8,
+  "name": "Fire Districts by fire district",
+  "metadata": {
+    "description": "Fill color shows the `Fire_Dist_Name` column. See the column description for the meaning of each code."
+  },
+  "sources": {
+    "data": {
+      "type": "vector"
+    }
+  },
+  "layers": [
+    {
+      "id": "fire-districts-fill",
+      "type": "fill",
+      "source": "data",
+      "source-layer": "fire-districts",
+      "paint": {
+        "fill-color": [
+          "match",
+          [
+            "get",
+            "Fire_Dist_Name"
+          ],
+          "Amagansett Fire",
+          "#4e79a7",
+          "Bridgehampton Fire",
+          "#f28e2b",
+          "East Hampton Road Fire Protection",
+          "#e15759",
+          "East Hampton Water Supply",
+          "#76b7b2",
+          "Montauk Fire",
+          "#59a14f",
+          "Montauk Fire Protection",
+          "#edc948",
+          "Northwest Fire Protection",
+          "#b07aa1",
+          "Promised Land Fire Protection",
+          "#ff9da7",
+          "Springs Fire",
+          "#9c755f",
+          "#bdbdbd"
+        ],
+        "fill-opacity": 0.75
+      }
+    },
+    {
+      "id": "fire-districts-outline",
+      "type": "line",
+      "source": "data",
+      "source-layer": "fire-districts",
+      "paint": {
+        "line-color": "#ffffff",
+        "line-width": 0.6,
+        "line-opacity": 0.8
+      }
+    }
+  ]
+}

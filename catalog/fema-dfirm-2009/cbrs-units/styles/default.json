@@ -1,0 +1,46 @@
+{
+  "version": 8,
+  "name": "Coastal Barrier Resources System Units by cbrs unit type",
+  "metadata": {
+    "description": "Fill color shows the `CBRS_Type` column. See the column description for the meaning of each code."
+  },
+  "sources": {
+    "data": {
+      "type": "vector"
+    }
+  },
+  "layers": [
+    {
+      "id": "cbrs-units-fill",
+      "type": "fill",
+      "source": "data",
+      "source-layer": "cbrs-units",
+      "paint": {
+        "fill-color": [
+          "match",
+          [
+            "get",
+            "CBRS_Type"
+          ],
+          "System Unit",
+          "#e6550d",
+          "Otherwise Protected Area",
+          "#9e9ac8",
+          "#bdbdbd"
+        ],
+        "fill-opacity": 0.75
+      }
+    },
+    {
+      "id": "cbrs-units-outline",
+      "type": "line",
+      "source": "data",
+      "source-layer": "cbrs-units",
+      "paint": {
+        "line-color": "#ffffff",
+        "line-width": 0.6,
+        "line-opacity": 0.8
+      }
+    }
+  ]
+}

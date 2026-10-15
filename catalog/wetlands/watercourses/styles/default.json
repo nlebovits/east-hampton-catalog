@@ -1,0 +1,28 @@
+{
+  "version": 8,
+  "name": "Watercourses",
+  "metadata": {
+    "description": "Watercourses in one color."
+  },
+  "sources": {
+    "data": {
+      "type": "vector"
+    }
+  },
+  "layers": [
+    {
+      "id": "watercourses-line",
+      "type": "line",
+      "source": "data",
+      "source-layer": "watercourses",
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "#2171b5",
+        "line-width": 2.5
+      }
+    }
+  ]
+}

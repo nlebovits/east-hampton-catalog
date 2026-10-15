@@ -1,0 +1,35 @@
+{
+  "version": 8,
+  "name": "Town Boundary",
+  "metadata": {
+    "description": "Town Boundary in one color."
+  },
+  "sources": {
+    "data": {
+      "type": "vector"
+    }
+  },
+  "layers": [
+    {
+      "id": "town-boundary-fill",
+      "type": "fill",
+      "source": "data",
+      "source-layer": "town-boundary",
+      "paint": {
+        "fill-color": "#d4b483",
+        "fill-opacity": 0.6
+      }
+    },
+    {
+      "id": "town-boundary-outline",
+      "type": "line",
+      "source": "data",
+      "source-layer": "town-boundary",
+      "paint": {
+        "line-color": "#5c4a32",
+        "line-width": 0.6,
+        "line-opacity": 0.8
+      }
+    }
+  ]
+}

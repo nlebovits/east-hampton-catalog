@@ -1,0 +1,35 @@
+{
+  "version": 8,
+  "name": "Upland Areas",
+  "metadata": {
+    "description": "Upland Areas in one color."
+  },
+  "sources": {
+    "data": {
+      "type": "vector"
+    }
+  },
+  "layers": [
+    {
+      "id": "upland-areas-fill",
+      "type": "fill",
+      "source": "data",
+      "source-layer": "upland-areas",
+      "paint": {
+        "fill-color": "#bf812d",
+        "fill-opacity": 0.85
+      }
+    },
+    {
+      "id": "upland-areas-outline",
+      "type": "line",
+      "source": "data",
+      "source-layer": "upland-areas",
+      "paint": {
+        "line-color": "#8c510a",
+        "line-width": 0.6,
+        "line-opacity": 0.8
+      }
+    }
+  ]
+}

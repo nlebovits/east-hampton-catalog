@@ -1,35 +1,22 @@
-<!-- ops-sync:begin — synced from portolan-sdi/portolan-ops. Edit there, not here. -->
-# Portolan agent norms
-
-All agents MUST read this document before starting work, with no exceptions, ever. (Claude Code does not read `AGENTS.md` but imports this file via a one-line `CLAUDE.md`.) Most of this content is synced downstream from `portolan-ops`. Put repo-specific instructions in `AGENTS.md`, never in `CLAUDE.md`, which the sync overwrites.
-
-## Ground rules
-
-Agents MUST read the complete contents of [norms](https://github.com/portolan-sdi/portolan-ops/blob/main/norms) and [policies](https://github.com/portolan-sdi/portolan-ops/blob/main/policies/) before starting work, with no exceptions, ever.
-
-The [portolan-spec](https://github.com/portolan-sdi/portolan-spec) repo is the absolute ground truth for the Portolan spec. All other tools are downstream of it.
-
-Before documenting any command, flag, or API, verify that it exists.
-
-Use conventional commits always.
-
-All tickets and PRs MUST follow the [templates](https://github.com/portolan-sdi/portolan-ops/blob/main/templates/).
-
-## Org-wide facts
-
-The canonical homepage is https://www.portolan-sdi.org/. Canonical URLs live in [copy/urls.md](https://github.com/portolan-sdi/portolan-ops/blob/main/copy/urls.md). Do not hardcode variants.
-
-Community discussion happens in the [Portolan Google Group](https://groups.google.com/g/portolan) and the [Portolan channel](https://cloudnativegeo.slack.com/archives/C0A1JBH9529) in Cloud-Native Geo Slack. Planning happens in [org-level GitHub projects](https://github.com/orgs/portolan-sdi/projects/1).
-
-Files between `ops-sync` markers are synced from [portolan-ops](https://github.com/portolan-sdi/portolan-ops). They are overwritten on every sync run. To change one, edit it in portolan-ops.
-
-One canonical home per fact. If a value like a color, URL, or policy line exists in portolan-ops, link to it rather than copying it.
-<!-- ops-sync:end -->
-
 ## This Repository
 
-A template for a git-backed Portolan catalog. Repositories created from it
-inherit everything here, so a mistake in this file propagates.
+The metadata for the Portolan mirror of the Town of East Hampton, NY GIS
+layers. The data lives in `../east-hampton-staging` and on Source Cooperative.
+README.md gives the refresh procedure.
+
+### Edit the source, not the output
+
+`tools/layers.yaml` holds every title, description, provider, and column
+meaning. `tools/styles.py` writes every style. `collection.json`,
+`catalog.json`, and the generated `README.md` and collection `AGENTS.md` files
+come from `portolan` and `tools/build_catalog.py`. A hand edit to them is lost
+on the next build. `catalog/AGENTS.md` and `catalog/LICENSE.md` are
+hand-written.
+
+### One publish tool
+
+This catalog publishes with `tools/publish.py` and `tools/upload_data.py`, not
+with `portolan push`. The two do not share state.
 
 ### The publish boundary
 
@@ -60,8 +47,8 @@ confident wrong answer that nothing downstream catches.
 
 ### The links back to this repository
 
-`catalog/catalog.json` ships a `vcs` link and an `issues` link. Both hrefs are
-setup placeholders, so `tests/test_setup.py` catches a half-edited repository.
+`catalog/catalog.json` carries a `vcs` link and an `issues` link to this
+repository. `tools/build_catalog.py enrich` writes them.
 The Portolan spec recommends these two links for a git-backed catalog. See
 [git-backed catalogs](https://github.com/portolan-sdi/portolan-spec/blob/main/specs/best-practices/git-backed-catalogs.md),
 which merged in August 2026.

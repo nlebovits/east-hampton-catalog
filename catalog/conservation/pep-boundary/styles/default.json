@@ -1,0 +1,35 @@
+{
+  "version": 8,
+  "name": "Peconic Estuary Boundary",
+  "metadata": {
+    "description": "Peconic Estuary Boundary in one color."
+  },
+  "sources": {
+    "data": {
+      "type": "vector"
+    }
+  },
+  "layers": [
+    {
+      "id": "pep-boundary-fill",
+      "type": "fill",
+      "source": "data",
+      "source-layer": "pep-boundary",
+      "paint": {
+        "fill-color": "#6baed6",
+        "fill-opacity": 0.35
+      }
+    },
+    {
+      "id": "pep-boundary-outline",
+      "type": "line",
+      "source": "data",
+      "source-layer": "pep-boundary",
+      "paint": {
+        "line-color": "#3182bd",
+        "line-width": 0.6,
+        "line-opacity": 0.8
+      }
+    }
+  ]
+}

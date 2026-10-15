@@ -1,0 +1,35 @@
+{
+  "version": 8,
+  "name": "Hydrogeologic Zone V",
+  "metadata": {
+    "description": "Hydrogeologic Zone V in one color."
+  },
+  "sources": {
+    "data": {
+      "type": "vector"
+    }
+  },
+  "layers": [
+    {
+      "id": "groundwater-zone-v-fill",
+      "type": "fill",
+      "source": "data",
+      "source-layer": "groundwater-zone-v",
+      "paint": {
+        "fill-color": "#41ab5d",
+        "fill-opacity": 0.45
+      }
+    },
+    {
+      "id": "groundwater-zone-v-outline",
+      "type": "line",
+      "source": "data",
+      "source-layer": "groundwater-zone-v",
+      "paint": {
+        "line-color": "#006d2c",
+        "line-width": 0.6,
+        "line-opacity": 0.8
+      }
+    }
+  ]
+}

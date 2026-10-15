@@ -1,0 +1,66 @@
+{
+  "version": 8,
+  "name": "LWRP Reach Boundaries by lwrp reach",
+  "metadata": {
+    "description": "Fill color shows the `ID` column. See the column description for the meaning of each code."
+  },
+  "sources": {
+    "data": {
+      "type": "vector"
+    }
+  },
+  "layers": [
+    {
+      "id": "lwrp-reaches-fill",
+      "type": "fill",
+      "source": "data",
+      "source-layer": "lwrp-reaches",
+      "paint": {
+        "fill-color": [
+          "match",
+          [
+            "get",
+            "ID"
+          ],
+          "REACH 1",
+          "#8dd3c7",
+          "REACH 2",
+          "#ffffb3",
+          "REACH 3",
+          "#bebada",
+          "REACH 4",
+          "#fb8072",
+          "REACH 5",
+          "#80b1d3",
+          "REACH 6",
+          "#fdb462",
+          "REACH 7",
+          "#b3de69",
+          "REACH 8",
+          "#fccde5",
+          "REACH 9",
+          "#d9d9d9",
+          "REACH 10",
+          "#bc80bd",
+          "REACH 11",
+          "#ccebc5",
+          "REACH 12",
+          "#ffed6f",
+          "#bdbdbd"
+        ],
+        "fill-opacity": 0.75
+      }
+    },
+    {
+      "id": "lwrp-reaches-outline",
+      "type": "line",
+      "source": "data",
+      "source-layer": "lwrp-reaches",
+      "paint": {
+        "line-color": "#ffffff",
+        "line-width": 0.6,
+        "line-opacity": 0.8
+      }
+    }
+  ]
+}

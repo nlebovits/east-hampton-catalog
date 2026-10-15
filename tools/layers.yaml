@@ -1,0 +1,810 @@
+# The source of truth for every collection in this catalog.
+#
+# tools/build_catalog.py reads this file. It writes each collection's
+# .portolan/metadata.yaml and table:columns descriptions from it. Edit this
+# file, not the generated collection.json or README.md.
+#
+# Every description states a fact that is quoted from the source, cited with
+# a link, or measured from the data. See catalog/AGENTS.md for the queries.
+
+source_service: https://eh-gis.ehamptonny.gov/arcgis/rest/services/MapServiceForOpenGov/MapServer
+extracted: "2026-10-15"
+public_page: https://source.coop/portolan-mirrors/east-hampton-catalog
+license_url: https://source.coop/portolan-mirrors/east-hampton-catalog/LICENSE.md
+
+contact:
+  name: Nissim Lebovits
+  email: nissim@radiant.earth
+
+host:
+  name: Nissim Lebovits
+  roles: [host]
+  url: https://source.coop/portolan-mirrors/east-hampton-catalog
+
+# Producers. A collection names one key from this table.
+producers:
+  town:
+    name: Town of East Hampton, Department of Information Technology, GIS Division
+    roles: [producer, licensor]
+    url: https://www.ehamptonny.gov/1955/Geographic-Information-System-GIS
+  nysdec:
+    name: New York State Department of Environmental Conservation
+    roles: [producer]
+    url: https://dec.ny.gov/
+  usfws_nwi:
+    name: U.S. Fish and Wildlife Service, National Wetlands Inventory
+    roles: [producer]
+    url: https://www.fws.gov/program/national-wetlands-inventory
+  usfws_cbrs:
+    name: U.S. Fish and Wildlife Service, Coastal Barrier Resources System
+    roles: [producer]
+    url: https://www.fws.gov/program/coastal-barrier-resources-act
+  fema:
+    name: Federal Emergency Management Agency
+    roles: [producer]
+    url: https://www.fema.gov/flood-maps/national-flood-hazard-layer
+  nrcs:
+    name: USDA Natural Resources Conservation Service
+    roles: [producer]
+    url: https://websoilsurvey.nrcs.usda.gov/
+  pep:
+    name: Peconic Estuary Partnership
+    roles: [producer]
+    url: https://www.peconicestuary.org/
+
+# The Town processes every third-party layer it serves. This entry is added
+# to a collection whose producer is not the Town.
+town_processor:
+  name: Town of East Hampton, Department of Information Technology, GIS Division
+  roles: [processor]
+  url: https://www.ehamptonny.gov/1955/Geographic-Information-System-GIS
+
+# Columns that carry nothing. Every row is null, or ArcGIS computed the value
+# from the geometry. tools/build_catalog.py drops them from every layer.
+drop_columns: [Shape, SHAPE, "Shape.STArea()", "Shape.STLength()"]
+
+catalog:
+  id: east-hampton-catalog
+  title: Town of East Hampton, NY GIS Layers
+  description: >-
+    A mirror of 38 layers from the Town of East Hampton, New York
+    [MapServiceForOpenGov](https://eh-gis.ehamptonny.gov/arcgis/rest/services/MapServiceForOpenGov/MapServer)
+    ArcGIS service: zoning and overlay districts, wetlands, coastal
+    management areas, FEMA flood zones, trails, and conservation easements.
+    Each layer is a GeoParquet file in the Town's coordinate system
+    (EPSG:2263) with PMTiles for the map. The Town states that the service
+    "contains draft data that may be incomplete". Read the
+    [terms](LICENSE.md) before you use the data, and read
+    [AGENTS.md](AGENTS.md) before you query it.
+  keywords: [East Hampton, Suffolk County, New York, Long Island, zoning, wetlands, coastal management, flood zones]
+  processing_notes: >-
+    Extracted on 2026-10-15 with `portolan extract arcgis` (portolan-cli
+    0.8.0). 38 of the service's 53 feature layers are mirrored. The mirror
+    omits the tax parcel layers (EHTaxMap, AHO & LBO, and the parcel-shaped
+    Town property layers 70 to 75) because the Suffolk County Real Property
+    Tax Service Agency holds the parcel linework copyright. It omits Building
+    Footprints and Pool Points because they derive from licensed Pictometry
+    imagery. It omits duplicate layers (81, 37, 80) and layers the Town
+    marks as not georeferenced or draft (49, 50). The `--layers` filter of
+    portolan-cli 0.8.0 matches list positions, not layer IDs
+    ([portolan-cli#1003](https://github.com/portolan-sdi/portolan-cli/issues/1003)),
+    so the extraction passed list positions. Each collection's processing
+    notes name its source layer. Thumbnails render each default style with
+    chiitiler over the Esri World Light Gray Canvas basemap. Basemap sources:
+    Esri, HERE, Garmin, © OpenStreetMap contributors, and the GIS user
+    community.
+  known_issues: >-
+    The Town publishes no license for the service. See
+    [LICENSE.md](LICENSE.md). The service description states that it
+    "contains draft data that may be incomplete". Text columns hold a
+    single space where the source has no value.
+
+subcatalogs:
+  base-layers:
+    title: Boundaries and Districts
+    keywords: [East Hampton, boundaries, districts]
+    description: >-
+      Town, village, and service district boundaries from the Town's
+      "EH Base Layers" group and the related top-level layers.
+  zoning:
+    title: Zoning and Overlay Districts
+    keywords: [East Hampton, zoning, overlay districts, groundwater]
+    description: >-
+      Use districts, overlay districts, and groundwater protection areas.
+      The Town Code and the official Use District Map govern. These layers
+      are not the legal zoning.
+  coastal:
+    title: Coastal Management
+    keywords: [East Hampton, coastal management, LWRP, habitats]
+    description: >-
+      The Coastal Erosion Overlay District, the State coastal erosion hazard
+      line, and the habitats and reaches of the Town's Local Waterfront
+      Revitalization Program.
+  fema-dfirm-2009:
+    title: FEMA Flood Insurance Rate Map, 2009
+    keywords: [Suffolk County, flood zones, FEMA, DFIRM]
+    description: >-
+      The Suffolk County Digital Flood Insurance Rate Map effective
+      September 25, 2009, as the Town serves it. The layers cover all of
+      Suffolk County, not only the Town.
+  wetlands:
+    title: Wetlands and Watercourses
+    keywords: [East Hampton, wetlands, NYSDEC, NWI]
+    description: >-
+      Town-mapped wetlands from surveys, and the State and federal wetland
+      inventories clipped to the Town.
+  conservation:
+    title: Conservation and Recreation
+    keywords: [East Hampton, conservation, trails, soils, Peconic Estuary]
+    description: >-
+      Conservation easements, trails, soils, and Peconic Estuary resource
+      areas.
+
+collections:
+
+  # ---------------------------------------------------------------- base-layers
+  - id: town-boundary
+    layer: 79
+    group: base-layers
+    title: Town Boundary
+    producer: town
+    description: >-
+      The boundary of the Town of East Hampton. The layer holds 2 polygons.
+    columns:
+      OBJECTID: ArcGIS object ID in the source layer.
+      Acres: Area in acres, as the Town computed it.
+    drop: [Area]
+
+  - id: villages
+    layer: 77
+    group: base-layers
+    title: Villages
+    producer: town
+    description: >-
+      The two incorporated villages that lie partly or fully in the Town:
+      East Hampton Village and Sag Harbor Village. Each village has its own
+      zoning code.
+    columns:
+      OBJECTID: ArcGIS object ID in the source layer.
+      ID: Unlabeled integer from the source. It is 0 in both rows.
+      Village: Village name.
+      Area_Sq_Ft: Area in square feet, as the Town computed it.
+      Perimeter: Perimeter in feet, as the Town computed it.
+      Acres: Area in acres, as the Town computed it.
+
+  - id: gardiners-island
+    layer: 78
+    group: base-layers
+    title: Gardiners Island Boundary
+    producer: town
+    description: >-
+      The outline of Gardiners Island, in Gardiners Bay. The island is part
+      of the Town. The layer holds 13 polygons and no attributes.
+    columns:
+      OBJECTID: ArcGIS object ID in the source layer.
+
+  - id: municipal-boundary-lines
+    layer: 2
+    group: base-layers
+    title: Municipal Boundary Lines
+    producer: town
+    description: >-
+      Three boundary lines at the west end of the Town, each with a short
+      description.
+    columns:
+      OBJECTID: ArcGIS object ID in the source layer.
+      Descrip: The boundary the line marks, as the Town labels it.
+
+  - id: fire-districts
+    layer: 9
+    group: base-layers
+    title: Fire Districts
+    producer: town
+    description: >-
+      Fire districts and fire protection districts in the Town. Nine
+      districts appear in 11 polygons.
+    columns:
+      OBJECTID: ArcGIS object ID in the source layer.
+      ID: District number, 10 to 18, as the source records it.
+      Fire_Dist_Name: District name.
+      Area_Sq_Ft: Area in square feet, as the Town computed it.
+      Acres: Area in acres, as the Town computed it.
+
+  - id: school-districts
+    layer: 10
+    group: base-layers
+    title: School Districts
+    producer: town
+    description: >-
+      School district boundaries in the Town. Five districts are named:
+      Amagansett, East Hampton, Montauk, Springs, and Wainscott. One polygon
+      has no name.
+    columns:
+      OBJECTID: ArcGIS object ID in the source layer.
+      ID: School district name. One row is blank.
+      Area_Sq_Ft: Area in square feet, as the Town computed it.
+      Acres: Area in acres, as the Town computed it.
+
+  - id: historic-districts
+    layer: 11
+    group: base-layers
+    title: Historic Districts
+    producer: town
+    description: >-
+      Four historic districts: Amagansett, Bluff Road, Montauk, and Springs.
+      The Town Code designates historic districts under
+      [Article VII of Chapter 255](https://ecode360.com/10413761). The
+      [Amagansett Historic District guidelines](https://ecode360.com/10416540)
+      are Zoning Appendix A.
+    columns:
+      OBJECTID: ArcGIS object ID in the source layer.
+      Historic_District: District name.
+      Area_Sq_Ft: Area in square feet, as the Town computed it.
+      Acres: Area in acres, as the Town computed it.
+    known_issues: >-
+      Older Town plans propose Wainscott and Springs historic districts. The
+      layer maps a Springs district. This mirror did not find the law that
+      adopted it.
+
+  - id: waterbodies
+    layer: 56
+    group: base-layers
+    title: Waterbodies
+    producer: town
+    description: >-
+      Ponds, harbors, and other waterbodies in the Town. 142 of 195 polygons
+      carry a name.
+    columns:
+      OBJECTID: ArcGIS object ID in the source layer.
+      Name: Waterbody name. Null for 53 polygons.
+      Acres: Area in acres, as the Town computed it. Null for 32 polygons.
+    drop: [Area]
+
+  # --------------------------------------------------------------------- zoning
+  - id: zoning-districts
+    layer: 82
+    group: zoning
+    title: Zoning Districts
+    producer: town
+    description: >-
+      Use districts of the Town, 458 polygons. The Town states: "It
+      was created by combining the parcel boundaries within a region
+      demarcated by the zoning lines ... This is not the official zoning for
+      the Town ... The Towns legal zoning is represented on the official
+      published maps, as it is directed in the Town Code." The district codes
+      come from [§ 255-2-10](https://ecode360.com/10414303) of the Town Code.
+    columns:
+      OBJECTID: ArcGIS object ID in the source layer.
+      Zoning: >-
+        Use district code from Town Code § 255-2-10. PC is Park and
+        Conservation. A10, A5, A3, A2, A, and B are single-family Residence
+        districts. MF is Multifamily. CB is Central Business. NB is
+        Neighborhood Business. CI is Commercial-Industrial. RS is Resort. WF
+        is Waterfront. CS is Commercial-Service.
+
+  - id: harbor-protection-overlay
+    layer: 14
+    group: zoning
+    title: Harbor Protection Overlay District
+    producer: town
+    description: >-
+      The Harbor Protection Overlay District (HPOD), 26 polygons. The Town
+      Code sets out the district in
+      [§§ 255-3-70 to 255-3-75](https://ecode360.com/10414408). The original
+      enacting law is
+      [Appendix C](https://dos.ny.gov/town-east-hampton-appendix-c-harbor-protection-overlay-district)
+      of the Town's Local Waterfront Revitalization Program.
+    columns:
+      OBJECTID: ArcGIS object ID in the source layer.
+      Area_Sq_Ft: Area in square feet, as the Town computed it.
+      Acres: Area in acres, as the Town computed it.
+
+  - id: water-recharge-overlay
+    layer: 15
+    group: zoning
+    title: Water Recharge Overlay District
+    producer: town
+    description: >-
+      The Water Recharge Overlay District (WROD), which limits clearing to
+      protect groundwater recharge. The Town Code sets out the district in
+      [§ 255-3-60](https://ecode360.com/10414408) and the sections after it.
+      The Town also designated the district as a
+      [Critical Environmental Area](https://extapps.dec.ny.gov/docs/permits_ej_operations_pdf/waterrechargeoverlay.pdf)
+      effective February 12, 1988.
+    columns:
+      OBJECTID: ArcGIS object ID in the source layer.
+      Area_Sq_Ft: Area in square feet, as the Town computed it.
+      Acres: Area in acres, as the Town computed it.
+
+  - id: agricultural-overlay
+    layer: 67
+    group: zoning
+    title: Agricultural Overlay District
+    producer: town
+    description: >-
+      The Agricultural Overlay District, 20 polygons. Under
+      [§ 255-3-30](https://ecode360.com/10414408) of the Town Code, its
+      purpose is "to reasonably control and, to the extent possible, prevent
+      the unnecessary loss of those currently open lands within the Town
+      containing large and contiguous areas of prime agricultural soils".
+    columns:
+      OBJECTID: ArcGIS object ID in the source layer.
+      Area_Sq_Ft: Area in square feet, as the Town computed it. Null in 1 row.
+      Acres: Area in acres, as the Town computed it. Null in 1 row.
+
+  - id: recreational-overlay
+    layer: 68
+    group: zoning
+    title: Recreational Overlay District
+    producer: town
+    description: >-
+      The Recreational Overlay District (ROD), one polygon. Town Code
+      [§ 255-5-50](https://ecode360.com/10414858) lets the Planning Board
+      approve clearing of up to 50% of a lot in this district for a major
+      recreational facility.
+    columns:
+      OBJECTID: ArcGIS object ID in the source layer.
+      BTCAMP: Unlabeled number from the source, 4. The meaning is not published.
+      ZONING: Underlying use district code, A5.
+      ROD: Unlabeled number from the source, 1. The meaning is not published.
+      DSBL19: >-
+        Suffolk County tax map number (district, section, block, lot) as a
+        19-character string.
+    known_issues: >-
+      The source publishes no meaning for BTCAMP or ROD.
+
+  - id: special-groundwater-protection-areas
+    layer: 16
+    group: zoning
+    title: Special Groundwater Protection Areas
+    producer: town
+    description: >-
+      Special Groundwater Protection Areas (SGPA) in and near the Town. New
+      York State designated the Long Island SGPAs under
+      [ECL § 55-0113](https://law.justia.com/codes/new-york/2013/env/article-55/55-0113).
+      They include the "South Fork Morainal Forest" and "the Hither Hills
+      area of the town of East Hampton". SGPAs are not Town zoning districts.
+    columns:
+      OBJECTID: ArcGIS object ID in the source layer.
+      LOCATION: Area name. South Fork or Hither Hills.
+      NAME: Designation type. The value is SGPA in both rows.
+      AGENCY: >-
+        Agency, as the source records it. The value is "Long Island Regional
+        Planning" in both rows.
+      DATE_: Date, as text in M-D-YY form. The value is 3-19-93 in both rows.
+      REGION: Region label from the source. The value is 1 in both rows.
+      REASON: Reason for the designation, as the source records it.
+
+  - id: groundwater-zone-v
+    layer: 17
+    group: zoning
+    title: Hydrogeologic Zone V
+    producer: town
+    description: >-
+      Hydrogeologic Zone V, one polygon in the west of the Town. The Town's
+      Local Waterfront Revitalization Program
+      ([Section XII](https://dos.ny.gov/town-east-hampton-section-xii-water-resources-policies-30-40-44))
+      describes Zone V as a "deep flow recharge" zone under Article 7 of the
+      Suffolk County Sanitary Code.
+    columns:
+      OBJECTID: ArcGIS object ID in the source layer.
+      Area_Sq_Ft: Area in square feet, as the Town computed it.
+      Acres: Area in acres, as the Town computed it.
+
+  - id: critical-environmental-areas
+    layer: 23
+    group: zoning
+    title: Critical Environmental Areas
+    producer: town
+    description: >-
+      Critical Environmental Areas (CEA) designated under the State
+      Environmental Quality Review Act, in and near the Town. The
+      [NYSDEC CEA program](https://dec.ny.gov/regulatory/permits-licenses/seqr/critical-environmental-areas)
+      lists every CEA in the State. The Peconic Bay and Environs CEA
+      extends west of the Town.
+    columns:
+      OBJECTID: ArcGIS object ID in the source layer.
+      LOCATION: Town or area label from the source.
+      NAME: CEA name.
+      AGENCY: Agency that designated the CEA, as the source records it.
+      REGION: Region label from the source. The value is 1 in every row.
+      REASON: Reason for the designation, as the source records it.
+
+  # -------------------------------------------------------------------- coastal
+  - id: coastal-erosion-overlay
+    layer: 13
+    group: coastal
+    title: Coastal Erosion Overlay District Zones
+    producer: town
+    description: >-
+      Shoreline segments of the Coastal Erosion Overlay District, which the
+      Town Code sets out in [§ 255-3-80](https://ecode360.com/10414408) and
+      the sections after it. Each segment carries one of four zones. The
+      zone definitions come from the legend of the Town's
+      [Use District Map](https://ehamptonny.gov/DocumentCenter/View/1427/LegendRevisions-Sheet-PDF).
+    columns:
+      Zone: >-
+        Coastal Erosion Overlay District zone. 1 is the ocean littoral zone,
+        mostly free of erosion control structures. 2 is the bay littoral
+        zone, mostly free of erosion control structures. 3 is the bay
+        littoral zone with isolated erosion control structures. 4 is the bay
+        littoral zone with numerous erosion control structures.
+      Object_ID: A second object ID from the source. Its origin is not published.
+      ZoneSheets: Map sheet number, as text. The source does not name the map series.
+
+  - id: ceha-line
+    layer: 30
+    group: coastal
+    title: Coastal Erosion Hazard Area Line
+    producer: town
+    description: >-
+      The Coastal Erosion Hazard Area (CEHA) line, 61 segments. CEHA is the
+      State designation under Article 34 of the Environmental Conservation
+      Law and 6 NYCRR Part 505. The Town's local erosion law is
+      [Appendix G](https://dos.ny.gov/town-east-hampton-appendix-g-local-erosion-law)
+      of its Local Waterfront Revitalization Program.
+    columns:
+      OBJECTID: ArcGIS object ID in the source layer.
+      LENGTH: Segment length, as the source records it.
+      PHOTO: Photo identifier, as the source records it, for example 7-398-83.
+      SHEET: Map sheet, as the source records it, for example "1 of 59".
+      TOWN: Town name. East Hampton in every row.
+      VILLAGE: Village name. A single space outside a village.
+      COUNTY: County name. Suffolk in every row.
+    known_issues: >-
+      The Town publishes no definition of this layer. The source does not
+      name the map series behind PHOTO and SHEET, or the unit of LENGTH.
+
+  - id: lwrp-reaches
+    layer: 22
+    group: coastal
+    title: LWRP Reach Boundaries
+    producer: town
+    description: >-
+      The geographic reaches of the Town's
+      [Local Waterfront Revitalization Program](https://dos.ny.gov/location/town-east-hampton-local-waterfront-revitalization-program)
+      (LWRP). The LWRP divides the Town's coast into twelve reaches.
+      [Section I](https://docs.dos.ny.gov/opd-lwrp/LWRP/East%20Hampton_T/Original/LWRP/Section%20I.pdf)
+      of the LWRP names them.
+    columns:
+      OBJECTID: ArcGIS object ID in the source layer.
+      ID: Reach identifier, "REACH 1" to "REACH 12".
+      Area_Sq_Ft: Area in square feet, as the Town computed it.
+      Acres: Area in acres, as the Town computed it.
+
+  - id: significant-coastal-habitats
+    layer: 21
+    group: coastal
+    title: Significant Coastal Fish and Wildlife Habitats
+    producer: town
+    description: >-
+      Significant Coastal Fish and Wildlife Habitats (SCFWH) in the Town.
+      The [NYS Department of State](https://dos.ny.gov/significant-coastal-fish-wildlife-habitats)
+      designates these habitats and publishes a narrative for each one.
+      [LWRP Section III](https://docs.dos.ny.gov/opd-lwrp/LWRP/East%20Hampton_T/Original/LWRP/Section%20III.pdf)
+      lists sixteen State habitats in the Town and five habitats that the
+      Town designated as locally significant.
+    columns:
+      OBJECTID: ArcGIS object ID in the source layer.
+      NAME: State habitat name. A single space for a locally significant habitat.
+      TXT: The habitat name without spaces, for example NapeagueBeach.
+      SCFWH: >-
+        State habitat code, for example EH-3. The value is 0 for a locally
+        significant habitat.
+      LOCALLYSIG: >-
+        Name of a locally significant habitat. A single space for a State
+        habitat.
+      Area_Sq_Ft: Area in square feet, as the Town computed it.
+      Acres: Area in acres, as the Town computed it.
+
+  - id: ecological-complexes
+    layer: 19
+    group: coastal
+    title: Ecological Complexes
+    producer: town
+    description: >-
+      Boundary lines of ecological complexes. Four of the 11 lines carry a
+      name: Atlantic Double Dunes, Shelter Island Harbor Bays, Gardiners
+      Island, and Montauk.
+      [LWRP Section III](https://docs.dos.ny.gov/opd-lwrp/LWRP/East%20Hampton_T/Original/LWRP/Section%20III.pdf)
+      takes the ecological complexes from a 1991 U.S. Fish and Wildlife
+      Service study.
+    columns:
+      OBJECTID: ArcGIS object ID in the source layer.
+      HABITATNAM: Complex name. A single space for 7 unnamed lines.
+
+  - id: scfwh-coastal-boundary
+    layer: 20
+    group: coastal
+    title: SCFWH Coastal Boundary
+    producer: town
+    description: >-
+      Three coastal boundary lines from the Town's LWRP habitat group. The
+      layer has no attributes.
+    columns:
+      OBJECTID: ArcGIS object ID in the source layer.
+    known_issues: >-
+      The source publishes no description of these lines.
+
+  # ------------------------------------------------------------ fema-dfirm-2009
+  - id: flood-zones
+    layer: 36
+    group: fema-dfirm-2009
+    title: FEMA Flood Zones, 2009
+    producer: fema
+    description: >-
+      Flood hazard zones from the Suffolk County Flood Insurance Rate Map
+      effective September 25, 2009. The layer covers all of Suffolk County.
+      FEMA publishes the current flood zones in the
+      [National Flood Hazard Layer](https://www.fema.gov/flood-maps/national-flood-hazard-layer).
+      Use it for any flood insurance or permit question.
+    columns:
+      OBJECTID: ArcGIS object ID in the source layer.
+      FLD_ZONE: >-
+        Flood zone. A, AE, AO, V, and VE are Special Flood Hazard Areas, the
+        1-percent-annual-chance flood. V and VE also carry wave action. "0.2
+        PCT ANNUAL CHANCE FLOOD HAZARD" lies between the 1-percent and
+        0.2-percent-annual-chance floods. See the
+        [FEMA flood zone glossary](https://www.fema.gov/about/glossary/flood-zones).
+      SFHA_TF: T when the zone is a Special Flood Hazard Area, F otherwise.
+      STATIC_BFE: Base flood elevation. -9999 means no value.
+      V_DATUM: Vertical datum of STATIC_BFE, NAVD88 or a single space.
+      LEN_UNIT: Unit of STATIC_BFE, FEET or a single space.
+
+  - id: limwa
+    layer: 33
+    group: fema-dfirm-2009
+    title: Limit of Moderate Wave Action, 2009
+    producer: fema
+    description: >-
+      The Limit of Moderate Wave Action (LiMWA) from the 2009 Suffolk County
+      flood map. FEMA describes the LiMWA as "the approximate landward limit
+      of the 1.5 foot breaking wave"
+      ([FEMA IS-727](https://emilms.fema.gov/is_0727/groups/48.html)). The
+      layer covers all of Suffolk County.
+    columns:
+      OBJECTID: ArcGIS object ID in the source layer.
+      LIMWA_ID: FEMA feature identifier.
+      SOURCE_CIT: FEMA source citation code, STUDY5 or a single space.
+      Shape_Length: Line length in feet, as ArcGIS computed it.
+
+  - id: cbrs-units
+    layer: 34
+    group: fema-dfirm-2009
+    title: Coastal Barrier Resources System Units
+    producer: usfws_cbrs
+    description: >-
+      Coastal Barrier Resources System (CBRS) units, as the Town serves them
+      with the 2009 flood map. The layer covers all of Suffolk County. The
+      U.S. Fish and Wildlife Service publishes the
+      [current CBRS units](https://www.fws.gov/program/coastal-barrier-resources-act).
+    columns:
+      OBJECTID: ArcGIS object ID in the source layer.
+      Unit: CBRS unit number. An Otherwise Protected Area number ends in P.
+      CBRS_Type: >-
+        "System Unit", where most new federal spending and federal flood
+        insurance are prohibited. "Otherwise Protected Area", where only
+        federal flood insurance is prohibited.
+      FI_Date: >-
+        "The date on which the prohibition on Federal flood insurance first
+        took effect for a given area" (USFWS CBRS metadata).
+      SU_Date: >-
+        "The date on which prohibitions on Federal expenditures besides flood
+        insurance ... went into effect" (USFWS CBRS metadata). Null for an
+        Otherwise Protected Area.
+
+  - id: shoreline
+    layer: 35
+    group: fema-dfirm-2009
+    title: FIRM Shoreline, 2009
+    producer: fema
+    description: >-
+      The shoreline from the 2009 Suffolk County flood map. The layer covers
+      all of Suffolk County.
+    columns:
+      OBJECTID: ArcGIS object ID in the source layer.
+      V_DATM_LID: Vertical datum, NAVD88 or a single space.
+      SOURCE_CIT: FEMA source citation code, STUDY5 or a single space.
+
+  # ------------------------------------------------------------------- wetlands
+  - id: town-wetlands
+    layer: 48
+    group: wetlands
+    title: Town Surveyed Wetlands
+    producer: town
+    description: >-
+      Wetland boundaries that surveys flagged in the Town. The Town states:
+      "The wetland boundaries were digitized from surveys which were
+      georeferenced in the GIS ... The layer is limited to the records the
+      Town Planning department has. There may be wetlands that are not mapped
+      on this layer as the Town does not have survey records for them."
+    columns:
+      OBJECTID: ArcGIS object ID in the source layer.
+
+  - id: watercourses
+    layer: 51
+    group: wetlands
+    title: Watercourses
+    producer: town
+    description: >-
+      Watercourse lines from the Town's "Town Wetlands" group. The layer has
+      no attributes.
+    columns:
+      OBJECTID: ArcGIS object ID in the source layer.
+
+  - id: upland-areas
+    layer: 52
+    group: wetlands
+    title: Upland Areas
+    producer: town
+    description: >-
+      Upland areas from the Town's "Town Wetlands" group, 58 polygons. The
+      layer has no attributes.
+    columns:
+      OBJECTID: ArcGIS object ID in the source layer.
+    known_issues: >-
+      The source publishes no description of this layer.
+
+  - id: dec-tidal-wetlands
+    layer: 27
+    group: wetlands
+    title: NYSDEC Tidal Wetlands
+    producer: nysdec
+    description: >-
+      Tidal wetlands mapped by NYSDEC, as the Town serves them. The column
+      names refer to 1974. The category codes come from the
+      [NYSDEC tidal wetland categories](https://dec.ny.gov/nature/waterbodies/wetlands/tidal/categories)
+      page.
+    columns:
+      OBJECTID: ArcGIS object ID in the source layer.
+      TWCAT74: >-
+        1974 tidal wetland category. IM is Intertidal Marsh. HM is High
+        Marsh or Salt Meadow. FM is Coastal Fresh Marsh. FC is Formerly
+        Connected. SM is Coastal Shoals, Bars and Mudflats. LZ is Littoral
+        Zone. AA is Adjacent Area. DS is Dredged Spoil. HL is a hole area
+        with no tidal wetland, as TW_Desig states.
+      ACREAGE74: Area in acres, as the source records it.
+      TW_Desig: The category name, as text.
+    drop: [Area]
+
+  - id: dec-freshwater-wetlands
+    layer: 28
+    group: wetlands
+    title: NYSDEC Freshwater Wetlands
+    producer: nysdec
+    description: >-
+      Freshwater wetlands that NYSDEC mapped, as the Town serves them. NYSDEC
+      [classifies](https://dec.ny.gov/nature/waterbodies/wetlands/freshwater-wetlands-program/conserve)
+      wetlands "from Class 1, which provide the most benefits, to Class IV,
+      which provide the fewest benefits". Since January 1, 2025, a revised
+      [6 NYCRR Part 664](https://dec.ny.gov/sites/default/files/2025-03/part664expressterms.pdf)
+      sets jurisdiction.
+    columns:
+      OBJECTID: ArcGIS object ID in the source layer.
+      WETID: NYSDEC wetland identifier.
+      Acres: Area in acres, as the Town computed it.
+      CLASS: NYSDEC wetland class, 1 to 4. One row holds 0.
+    drop: [AREA]
+
+  - id: nwi-wetlands
+    layer: 29
+    group: wetlands
+    title: National Wetlands Inventory
+    producer: usfws_nwi
+    description: >-
+      National Wetlands Inventory (NWI) polygons, clipped by the Town to the
+      Town area. The ATTRIBUTE column is a Cowardin classification code. The
+      [NWI classification codes](https://www.fws.gov/program/national-wetlands-inventory/classification-codes)
+      page decodes it.
+    columns:
+      OBJECTID: ArcGIS object ID in the source layer.
+      ATTRIBUTE: >-
+        Cowardin classification code. The first letter is the system. E is
+        Estuarine, P is Palustrine, M is Marine, L is Lacustrine, and R is
+        Riverine.
+      Acres: Area in acres, as the Town computed it.
+    drop: [AREA]
+    known_issues: >-
+      173 rows hold the ATTRIBUTE value U. The NWI code list does not define
+      U as a wetland class, and the Town does not explain it.
+
+  # --------------------------------------------------------------- conservation
+  - id: scenic-conservation-easements
+    layer: 54
+    group: conservation
+    title: Scenic and Conservation Easements
+    producer: town
+    description: >-
+      Scenic and conservation easements that the Town digitized, 1,410
+      polygons. The Town's
+      [Community Preservation Fund plan](https://ehamptonny.gov/DocumentCenter/View/1198/The-Community-Preservation-Fund-Project-Plan-PDF)
+      lists scenic and conservation easements among its preservation tools.
+      The layer has no attributes.
+    columns:
+      OBJECTID: ArcGIS object ID in the source layer.
+
+  - id: protected-vegetation-buffers
+    layer: 55
+    group: conservation
+    title: Protected Vegetation Buffer Areas
+    producer: town
+    description: >-
+      Protected vegetation buffer areas that the Town digitized, 23 polygons.
+      The layer has no attributes.
+    columns:
+      OBJECTID: ArcGIS object ID in the source layer.
+
+  - id: trails
+    layer: 43
+    group: conservation
+    title: Trails
+    producer: town
+    description: >-
+      Trails, dirt roads, and paths in the Town, 1,108 segments. The Town
+      states that it collected the data from 2012 and that the data "is thus
+      considered DRAFT and constantly evolving". The Town's
+      [Trail Maps](https://www.ehamptonny.gov/532/Trail-Maps) page has the
+      printed trail guides.
+    columns:
+      OBJECTID: ArcGIS object ID in the source layer.
+      Trail_Name: Trail name. Null for 230 segments.
+      Trail_Loca: Trail location or area name.
+      Trail_Type: Trail type, for example Hiking Trail or Dirt Road.
+      Trail_Blaz: Blaze color and shape, as free text.
+      Trail_Stat: Status. Open, Closed, NotPublic, Proposed, Trial, or Other.
+      Miles: Segment length in miles.
+      Feet: Segment length in feet.
+    known_issues: >-
+      Trail_Blaz is free text. It holds 91 distinct values with
+      inconsistent spelling and some junk values.
+
+  - id: soils
+    layer: 31
+    group: conservation
+    title: Soils
+    producer: nrcs
+    description: >-
+      Soil map units in the Town, from the USDA soil survey of Suffolk County
+      (survey area NY103). The
+      [Web Soil Survey](https://websoilsurvey.nrcs.usda.gov/) has the
+      current map units and their properties.
+    columns:
+      OBJECTID: ArcGIS object ID in the source layer.
+      MUSYM: >-
+        Soil map unit symbol. For example, BgA is Bridgehampton silt loam, 0
+        to 2 percent slopes. MkB is Montauk loam, 3 to 8 percent slopes.
+      Acres: Area in acres, as the Town computed it.
+    drop: [AREA]
+    known_issues: >-
+      MfA and MfB are not in the current NY103 soil survey legend. MfB is
+      the second most common symbol in the layer, with 77 polygons. The Town
+      layer can predate the current survey.
+
+  - id: pep-cnras
+    layer: 24
+    group: conservation
+    title: Peconic Estuary Critical Natural Resource Areas
+    producer: pep
+    description: >-
+      Critical Natural Resource Areas (CNRA) of the
+      [Peconic Estuary Partnership](https://www.peconicestuary.org/). The
+      Partnership's management plan uses CNRAs to protect high quality
+      habitats. The layer covers the whole estuary, not only the Town.
+    columns:
+      OBJECTID: ArcGIS object ID in the source layer.
+      SITENAME: Site name.
+      LABEL: Map label number, as text.
+
+  - id: pep-boundary
+    layer: 25
+    group: conservation
+    title: Peconic Estuary Boundary
+    producer: pep
+    description: >-
+      The study area boundary of the
+      [Peconic Estuary Partnership](https://www.peconicestuary.org/), one
+      polygon.
+    columns:
+      OBJECTID: ArcGIS object ID in the source layer.
+      AREA_: Area, as the source records it. The unit is not published.
+      Acres: Area in acres, as the Town computed it.

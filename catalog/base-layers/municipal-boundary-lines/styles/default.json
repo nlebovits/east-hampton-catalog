@@ -1,0 +1,32 @@
+{
+  "version": 8,
+  "name": "Municipal Boundary Lines",
+  "metadata": {
+    "description": "Municipal Boundary Lines in one color."
+  },
+  "sources": {
+    "data": {
+      "type": "vector"
+    }
+  },
+  "layers": [
+    {
+      "id": "municipal-boundary-lines-line",
+      "type": "line",
+      "source": "data",
+      "source-layer": "municipal-boundary-lines",
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "#252525",
+        "line-width": 3.0,
+        "line-dasharray": [
+          3,
+          1.5
+        ]
+      }
+    }
+  ]
+}

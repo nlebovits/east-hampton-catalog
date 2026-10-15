@@ -1,0 +1,28 @@
+{
+  "version": 8,
+  "name": "Limit of Moderate Wave Action, 2009",
+  "metadata": {
+    "description": "Limit of Moderate Wave Action, 2009 in one color."
+  },
+  "sources": {
+    "data": {
+      "type": "vector"
+    }
+  },
+  "layers": [
+    {
+      "id": "limwa-line",
+      "type": "line",
+      "source": "data",
+      "source-layer": "limwa",
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "#ff7f00",
+        "line-width": 1.5
+      }
+    }
+  ]
+}

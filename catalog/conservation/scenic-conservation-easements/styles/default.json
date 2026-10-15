@@ -1,0 +1,35 @@
+{
+  "version": 8,
+  "name": "Scenic and Conservation Easements",
+  "metadata": {
+    "description": "Scenic and Conservation Easements in one color."
+  },
+  "sources": {
+    "data": {
+      "type": "vector"
+    }
+  },
+  "layers": [
+    {
+      "id": "scenic-conservation-easements-fill",
+      "type": "fill",
+      "source": "data",
+      "source-layer": "scenic-conservation-easements",
+      "paint": {
+        "fill-color": "#74c476",
+        "fill-opacity": 0.8
+      }
+    },
+    {
+      "id": "scenic-conservation-easements-outline",
+      "type": "line",
+      "source": "data",
+      "source-layer": "scenic-conservation-easements",
+      "paint": {
+        "line-color": "#006d2c",
+        "line-width": 0.6,
+        "line-opacity": 0.8
+      }
+    }
+  ]
+}

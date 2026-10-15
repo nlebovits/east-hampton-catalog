@@ -1,0 +1,50 @@
+{
+  "version": 8,
+  "name": "NYSDEC Freshwater Wetlands by freshwater wetland class",
+  "metadata": {
+    "description": "Fill color shows the `CLASS` column. See the column description for the meaning of each code."
+  },
+  "sources": {
+    "data": {
+      "type": "vector"
+    }
+  },
+  "layers": [
+    {
+      "id": "dec-freshwater-wetlands-fill",
+      "type": "fill",
+      "source": "data",
+      "source-layer": "dec-freshwater-wetlands",
+      "paint": {
+        "fill-color": [
+          "match",
+          [
+            "get",
+            "CLASS"
+          ],
+          "1",
+          "#01665e",
+          "2",
+          "#35978f",
+          "3",
+          "#80cdc1",
+          "0",
+          "#c7eae5",
+          "#bdbdbd"
+        ],
+        "fill-opacity": 0.75
+      }
+    },
+    {
+      "id": "dec-freshwater-wetlands-outline",
+      "type": "line",
+      "source": "data",
+      "source-layer": "dec-freshwater-wetlands",
+      "paint": {
+        "line-color": "#ffffff",
+        "line-width": 0.6,
+        "line-opacity": 0.8
+      }
+    }
+  ]
+}

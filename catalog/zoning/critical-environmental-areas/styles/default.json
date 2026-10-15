@@ -1,0 +1,48 @@
+{
+  "version": 8,
+  "name": "Critical Environmental Areas by designating agency",
+  "metadata": {
+    "description": "Fill color shows the `AGENCY` column. See the column description for the meaning of each code."
+  },
+  "sources": {
+    "data": {
+      "type": "vector"
+    }
+  },
+  "layers": [
+    {
+      "id": "critical-environmental-areas-fill",
+      "type": "fill",
+      "source": "data",
+      "source-layer": "critical-environmental-areas",
+      "paint": {
+        "fill-color": [
+          "match",
+          [
+            "get",
+            "AGENCY"
+          ],
+          "Suffolk County",
+          "#fdae6b",
+          "Long Island Regional Planning",
+          "#9ecae1",
+          "East Hampton, Town of",
+          "#a1d99b",
+          "#bdbdbd"
+        ],
+        "fill-opacity": 0.75
+      }
+    },
+    {
+      "id": "critical-environmental-areas-outline",
+      "type": "line",
+      "source": "data",
+      "source-layer": "critical-environmental-areas",
+      "paint": {
+        "line-color": "#ffffff",
+        "line-width": 0.6,
+        "line-opacity": 0.8
+      }
+    }
+  ]
+}

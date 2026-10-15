@@ -1,0 +1,28 @@
+{
+  "version": 8,
+  "name": "Coastal Erosion Hazard Area Line",
+  "metadata": {
+    "description": "Coastal Erosion Hazard Area Line in one color."
+  },
+  "sources": {
+    "data": {
+      "type": "vector"
+    }
+  },
+  "layers": [
+    {
+      "id": "ceha-line-line",
+      "type": "line",
+      "source": "data",
+      "source-layer": "ceha-line",
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "#e31a1c",
+        "line-width": 2.0
+      }
+    }
+  ]
+}

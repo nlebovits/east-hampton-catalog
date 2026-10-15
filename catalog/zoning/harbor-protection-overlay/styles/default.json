@@ -1,0 +1,35 @@
+{
+  "version": 8,
+  "name": "Harbor Protection Overlay District",
+  "metadata": {
+    "description": "Harbor Protection Overlay District in one color."
+  },
+  "sources": {
+    "data": {
+      "type": "vector"
+    }
+  },
+  "layers": [
+    {
+      "id": "harbor-protection-overlay-fill",
+      "type": "fill",
+      "source": "data",
+      "source-layer": "harbor-protection-overlay",
+      "paint": {
+        "fill-color": "#8c96c6",
+        "fill-opacity": 0.6
+      }
+    },
+    {
+      "id": "harbor-protection-overlay-outline",
+      "type": "line",
+      "source": "data",
+      "source-layer": "harbor-protection-overlay",
+      "paint": {
+        "line-color": "#6e016b",
+        "line-width": 0.6,
+        "line-opacity": 0.8
+      }
+    }
+  ]
+}

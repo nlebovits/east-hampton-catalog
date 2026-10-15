@@ -1,0 +1,52 @@
+{
+  "version": 8,
+  "name": "Significant Coastal Fish and Wildlife Habitats by locally significant habitat",
+  "metadata": {
+    "description": "Fill color shows the `LOCALLYSIG` column. See the column description for the meaning of each code."
+  },
+  "sources": {
+    "data": {
+      "type": "vector"
+    }
+  },
+  "layers": [
+    {
+      "id": "significant-coastal-habitats-fill",
+      "type": "fill",
+      "source": "data",
+      "source-layer": "significant-coastal-habitats",
+      "paint": {
+        "fill-color": [
+          "match",
+          [
+            "get",
+            "LOCALLYSIG"
+          ],
+          "THREE MILE HARBOR",
+          "#c7e9c0",
+          "GEORGICA POND",
+          "#a1d99b",
+          "WAINSCOTT POND",
+          "#74c476",
+          "FRESH POND BELL ESTATE WETLAND",
+          "#d9f0a3",
+          "MONTAUK POINT",
+          "#addd8e",
+          "#238b45"
+        ],
+        "fill-opacity": 0.75
+      }
+    },
+    {
+      "id": "significant-coastal-habitats-outline",
+      "type": "line",
+      "source": "data",
+      "source-layer": "significant-coastal-habitats",
+      "paint": {
+        "line-color": "#ffffff",
+        "line-width": 0.6,
+        "line-opacity": 0.8
+      }
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "version": 8,
+  "name": "Town Surveyed Wetlands",
+  "metadata": {
+    "description": "Town Surveyed Wetlands in one color."
+  },
+  "sources": {
+    "data": {
+      "type": "vector"
+    }
+  },
+  "layers": [
+    {
+      "id": "town-wetlands-fill",
+      "type": "fill",
+      "source": "data",
+      "source-layer": "town-wetlands",
+      "paint": {
+        "fill-color": "#41ae76",
+        "fill-opacity": 0.8
+      }
+    },
+    {
+      "id": "town-wetlands-outline",
+      "type": "line",
+      "source": "data",
+      "source-layer": "town-wetlands",
+      "paint": {
+        "line-color": "#005824",
+        "line-width": 0.6,
+        "line-opacity": 0.8
+      }
+    }
+  ]
+}

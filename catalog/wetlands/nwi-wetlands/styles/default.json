@@ -1,0 +1,59 @@
+{
+  "version": 8,
+  "name": "National Wetlands Inventory by Cowardin system",
+  "metadata": {
+    "description": "Fill color shows the first letter of `ATTRIBUTE`: P Palustrine, E Estuarine, M Marine, L Lacustrine, R Riverine, U undefined."
+  },
+  "sources": {
+    "data": {
+      "type": "vector"
+    }
+  },
+  "layers": [
+    {
+      "id": "nwi-wetlands-fill",
+      "type": "fill",
+      "source": "data",
+      "source-layer": "nwi-wetlands",
+      "paint": {
+        "fill-color": [
+          "match",
+          [
+            "slice",
+            [
+              "get",
+              "ATTRIBUTE"
+            ],
+            0,
+            1
+          ],
+          "P",
+          "#238b45",
+          "E",
+          "#2b8cbe",
+          "M",
+          "#deebf7",
+          "L",
+          "#9ecae1",
+          "R",
+          "#6baed6",
+          "U",
+          "#d9d9d9",
+          "#bdbdbd"
+        ],
+        "fill-opacity": 0.75
+      }
+    },
+    {
+      "id": "nwi-wetlands-outline",
+      "type": "line",
+      "source": "data",
+      "source-layer": "nwi-wetlands",
+      "paint": {
+        "line-color": "#ffffff",
+        "line-width": 0.6,
+        "line-opacity": 0.8
+      }
+    }
+  ]
+}

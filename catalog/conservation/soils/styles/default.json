@@ -1,0 +1,76 @@
+{
+  "version": 8,
+  "name": "Soils by soil map unit",
+  "metadata": {
+    "description": "Fill color shows the `MUSYM` column. See the column description for the meaning of each code."
+  },
+  "sources": {
+    "data": {
+      "type": "vector"
+    }
+  },
+  "layers": [
+    {
+      "id": "soils-fill",
+      "type": "fill",
+      "source": "data",
+      "source-layer": "soils",
+      "paint": {
+        "fill-color": [
+          "match",
+          [
+            "get",
+            "MUSYM"
+          ],
+          "BgA",
+          "#8c6d31",
+          "BgB",
+          "#bd9e39",
+          "BhB",
+          "#e7cb94",
+          "MkA",
+          "#637939",
+          "MkB",
+          "#8ca252",
+          "MfA",
+          "#b5cf6b",
+          "MfB",
+          "#cedb9c",
+          "HaA",
+          "#843c39",
+          "HaB",
+          "#ad494a",
+          "He",
+          "#d6616b",
+          "PsA",
+          "#e7ba52",
+          "RdA",
+          "#7b4173",
+          "RdB",
+          "#a55194",
+          "ScB",
+          "#5254a3",
+          "SdA",
+          "#6b6ecf",
+          "SdB",
+          "#9c9ede",
+          "Su",
+          "#de9ed6",
+          "#bdbdbd"
+        ],
+        "fill-opacity": 0.75
+      }
+    },
+    {
+      "id": "soils-outline",
+      "type": "line",
+      "source": "data",
+      "source-layer": "soils",
+      "paint": {
+        "line-color": "#ffffff",
+        "line-width": 0.6,
+        "line-opacity": 0.8
+      }
+    }
+  ]
+}

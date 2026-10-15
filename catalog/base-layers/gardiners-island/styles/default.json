@@ -1,0 +1,35 @@
+{
+  "version": 8,
+  "name": "Gardiners Island Boundary",
+  "metadata": {
+    "description": "Gardiners Island Boundary in one color."
+  },
+  "sources": {
+    "data": {
+      "type": "vector"
+    }
+  },
+  "layers": [
+    {
+      "id": "gardiners-island-fill",
+      "type": "fill",
+      "source": "data",
+      "source-layer": "gardiners-island",
+      "paint": {
+        "fill-color": "#74c476",
+        "fill-opacity": 0.65
+      }
+    },
+    {
+      "id": "gardiners-island-outline",
+      "type": "line",
+      "source": "data",
+      "source-layer": "gardiners-island",
+      "paint": {
+        "line-color": "#00441b",
+        "line-width": 0.6,
+        "line-opacity": 0.8
+      }
+    }
+  ]
+}

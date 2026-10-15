@@ -1,0 +1,46 @@
+{
+  "version": 8,
+  "name": "Villages by village",
+  "metadata": {
+    "description": "Fill color shows the `Village` column. See the column description for the meaning of each code."
+  },
+  "sources": {
+    "data": {
+      "type": "vector"
+    }
+  },
+  "layers": [
+    {
+      "id": "villages-fill",
+      "type": "fill",
+      "source": "data",
+      "source-layer": "villages",
+      "paint": {
+        "fill-color": [
+          "match",
+          [
+            "get",
+            "Village"
+          ],
+          "East Hampton Village",
+          "#d53e4f",
+          "Sag Harbor Village",
+          "#5e4fa2",
+          "#bdbdbd"
+        ],
+        "fill-opacity": 0.75
+      }
+    },
+    {
+      "id": "villages-outline",
+      "type": "line",
+      "source": "data",
+      "source-layer": "villages",
+      "paint": {
+        "line-color": "#ffffff",
+        "line-width": 0.6,
+        "line-opacity": 0.8
+      }
+    }
+  ]
+}

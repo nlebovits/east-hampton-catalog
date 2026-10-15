@@ -1,0 +1,70 @@
+{
+  "version": 8,
+  "name": "Zoning Districts by use district",
+  "metadata": {
+    "description": "Fill color shows the `Zoning` column. See the column description for the meaning of each code."
+  },
+  "sources": {
+    "data": {
+      "type": "vector"
+    }
+  },
+  "layers": [
+    {
+      "id": "zoning-districts-fill",
+      "type": "fill",
+      "source": "data",
+      "source-layer": "zoning-districts",
+      "paint": {
+        "fill-color": [
+          "match",
+          [
+            "get",
+            "Zoning"
+          ],
+          "A10",
+          "#fff7bc",
+          "A5",
+          "#fee391",
+          "A3",
+          "#fec44f",
+          "A2",
+          "#fe9929",
+          "A",
+          "#ec7014",
+          "B",
+          "#cc4c02",
+          "MF",
+          "#8c2d04",
+          "CB",
+          "#b2182b",
+          "NB",
+          "#d6604d",
+          "RS",
+          "#f4a582",
+          "CS",
+          "#c51b7d",
+          "CI",
+          "#762a83",
+          "WF",
+          "#2166ac",
+          "PC",
+          "#1b7837",
+          "#bdbdbd"
+        ],
+        "fill-opacity": 0.75
+      }
+    },
+    {
+      "id": "zoning-districts-outline",
+      "type": "line",
+      "source": "data",
+      "source-layer": "zoning-districts",
+      "paint": {
+        "line-color": "#ffffff",
+        "line-width": 0.6,
+        "line-opacity": 0.8
+      }
+    }
+  ]
+}

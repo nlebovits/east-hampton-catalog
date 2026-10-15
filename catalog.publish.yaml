@@ -3,22 +3,25 @@
 # Everything under publish_dir is synced 1:1 to write_prefix. Data files are
 # never placed under publish_dir, so they cannot be published by accident.
 #
-# TODO(setup): replace the three sentinel values below. tools/publish.py
-# refuses to upload while any of them is unchanged.
+# Source Cooperative serves these objects. data.source.coop returns raw
+# bytes. source.coop renders the human-facing page.
 
-# The S3 URI uploads are written to. Copy it from your storage provider.
-write_prefix: s3://EXAMPLE-BUCKET/EXAMPLE-PREFIX
+# The S3 URI uploads are written to. Uploads go through the data.source.coop
+# gateway, where the account is the bucket and the product is the prefix. The
+# profile below supplies the gateway endpoint and the credentials.
+write_prefix: s3://portolan-mirrors/east-hampton-catalog
 
 # The public base URL that serves write_prefix. Every href in the catalog is
 # built from this, so it goes in the STAC JSON and write_prefix does not.
-public_base: https://example.invalid/EXAMPLE-PREFIX
+public_base: https://data.source.coop/portolan-mirrors/east-hampton-catalog
 
 region: us-west-2
 
-# The named AWS profile the publisher uses. Optional. Leave it commented out
-# to use the default boto3 session. Source Cooperative issues per-account
-# credentials, so set the profile name you stored them under.
-# profile: my-source-coop-profile
+# The named AWS profile the publisher uses. It runs
+# `credential_process = source-coop creds` and sets
+# `endpoint_url = https://data.source.coop`, so uploads use the
+# publisher's own Source Cooperative login.
+profile: source-coop-proxy
 
 # The directory that IS the published catalog, synced 1:1 to write_prefix.
 # Nothing outside it is ever uploaded.
@@ -30,4 +33,4 @@ publish_dir: catalog
 # Data files are too large for git, so keep this directory out of the
 # repository or ignored by it. Only the suffixes in PUBLISHABLE_SUFFIXES
 # upload. See the allow-list in tools/upload_data.py.
-# data_dir: ../catalog-staging
+data_dir: ../east-hampton-staging

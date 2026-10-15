@@ -1,0 +1,53 @@
+{
+  "version": 8,
+  "name": "Trails by trail type",
+  "metadata": {
+    "description": "Line color shows the `Trail_Type` column."
+  },
+  "sources": {
+    "data": {
+      "type": "vector"
+    }
+  },
+  "layers": [
+    {
+      "id": "trails-line",
+      "type": "line",
+      "source": "data",
+      "source-layer": "trails",
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": [
+          "match",
+          [
+            "get",
+            "Trail_Type"
+          ],
+          "Hiking Trail",
+          "#1a9850",
+          "Dirt Road",
+          "#a6761d",
+          "Woods Dirt Road",
+          "#8c510a",
+          "Paved Road",
+          "#636363",
+          "Paved Path",
+          "#969696",
+          "Old Road",
+          "#bf812d",
+          "MV Trail",
+          "#d95f02",
+          "Horse Trail",
+          "#7570b3",
+          "Other",
+          "#e7298a",
+          "#bdbdbd"
+        ],
+        "line-width": 1.6
+      }
+    }
+  ]
+}

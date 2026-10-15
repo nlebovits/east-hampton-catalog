@@ -1,0 +1,35 @@
+{
+  "version": 8,
+  "name": "Recreational Overlay District",
+  "metadata": {
+    "description": "Recreational Overlay District in one color."
+  },
+  "sources": {
+    "data": {
+      "type": "vector"
+    }
+  },
+  "layers": [
+    {
+      "id": "recreational-overlay-fill",
+      "type": "fill",
+      "source": "data",
+      "source-layer": "recreational-overlay",
+      "paint": {
+        "fill-color": "#fdbb84",
+        "fill-opacity": 0.8
+      }
+    },
+    {
+      "id": "recreational-overlay-outline",
+      "type": "line",
+      "source": "data",
+      "source-layer": "recreational-overlay",
+      "paint": {
+        "line-color": "#d7301f",
+        "line-width": 0.6,
+        "line-opacity": 0.8
+      }
+    }
+  ]
+}

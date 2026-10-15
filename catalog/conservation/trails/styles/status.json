@@ -1,0 +1,47 @@
+{
+  "version": 8,
+  "name": "Trails: trail status",
+  "metadata": {
+    "description": "Color shows the `Trail_Stat` column. Trail status."
+  },
+  "sources": {
+    "data": {
+      "type": "vector"
+    }
+  },
+  "layers": [
+    {
+      "id": "trails-line",
+      "type": "line",
+      "source": "data",
+      "source-layer": "trails",
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": [
+          "match",
+          [
+            "get",
+            "Trail_Stat"
+          ],
+          "Open",
+          "#1a9850",
+          "Closed",
+          "#d73027",
+          "NotPublic",
+          "#fdae61",
+          "Proposed",
+          "#4575b4",
+          "Trial",
+          "#74add1",
+          "Other",
+          "#969696",
+          "#bdbdbd"
+        ],
+        "line-width": 1.6
+      }
+    }
+  ]
+}

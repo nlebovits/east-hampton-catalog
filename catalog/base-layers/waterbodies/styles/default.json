@@ -1,0 +1,35 @@
+{
+  "version": 8,
+  "name": "Waterbodies",
+  "metadata": {
+    "description": "Waterbodies in one color."
+  },
+  "sources": {
+    "data": {
+      "type": "vector"
+    }
+  },
+  "layers": [
+    {
+      "id": "waterbodies-fill",
+      "type": "fill",
+      "source": "data",
+      "source-layer": "waterbodies",
+      "paint": {
+        "fill-color": "#6baed6",
+        "fill-opacity": 0.8
+      }
+    },
+    {
+      "id": "waterbodies-outline",
+      "type": "line",
+      "source": "data",
+      "source-layer": "waterbodies",
+      "paint": {
+        "line-color": "#2171b5",
+        "line-width": 0.6,
+        "line-opacity": 0.8
+      }
+    }
+  ]
+}

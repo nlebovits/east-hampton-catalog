@@ -1,92 +1,103 @@
-# Portolan Catalog Template
+# East Hampton, NY catalog
 
-A starting point for a [Portolan](https://www.portolan-sdi.org/) catalog whose
-metadata lives in git. Click **Use this template**, work through
-[SETUP.md](SETUP.md), and you have a repository whose CI validates every change
-before it publishes.
+The metadata for a [Portolan](https://www.portolan-sdi.org/) mirror of 38
+layers from the Town of East Hampton, New York
+[MapServiceForOpenGov](https://eh-gis.ehamptonny.gov/arcgis/rest/services/MapServiceForOpenGov/MapServer)
+ArcGIS service. The catalog is published on Source Cooperative at
+[portolan-mirrors/east-hampton-catalog](https://source.coop/portolan-mirrors/east-hampton-catalog).
+
+The layers cover zoning and overlay districts, wetlands, coastal management
+areas, the 2009 FEMA flood map, trails, and conservation easements. Each layer
+is a GeoParquet file in EPSG:2263 with PMTiles, MapLibre styles, and a
+thumbnail. [catalog/LICENSE.md](catalog/LICENSE.md) records the source terms
+and the layers this mirror leaves out.
 
 **`catalog/` is the published catalog.** Everything in it is published.
-Everything outside it never is. That boundary is the whole publish contract,
-and `tools/publish.py` has no flag or config key that widens it.
+Everything outside it never is.
 
 ## Three kinds of file
 
 | Kind | Where | Example |
 |---|---|---|
-| Tracked and published | inside `catalog/` | STAC JSON, `README.md`, `AGENTS.md`, thumbnails, logos |
+| Tracked and published | inside `catalog/` | STAC JSON, `README.md`, `AGENTS.md`, styles, thumbnails |
 | Tracked, never published | outside `catalog/` | `tools/`, `tests/`, `docs/`, this README, `catalog.publish.yaml` |
-| Neither | gitignored | GeoParquet, COGs, PMTiles, credentials |
+| Neither | gitignored, in `../east-hampton-staging` | GeoParquet, PMTiles |
 
-The data lives in object storage next to the published metadata. The
-repository references it by URL and never stores it.
+## Where each part comes from
 
-## Layout
+| File | Source | Edit |
+|---|---|---|
+| Titles, descriptions, providers, column meanings | `tools/layers.yaml` | Yes |
+| `catalog/**/styles/*.json` | `tools/styles.py` | Edit the script |
+| `catalog/AGENTS.md`, `catalog/LICENSE.md` | Hand-written | Yes |
+| `collection.json`, `catalog.json`, `README.md`, collection `AGENTS.md` | `portolan` and `tools/build_catalog.py` | No. Regenerate them |
+| Thumbnails | chiitiler, framed per `tools/thumbnails.tsv` | Re-render them |
 
-| Path | What it is |
-|---|---|
-| `catalog/` | The published tree, synced 1:1 to object storage |
-| `catalog.publish.yaml` | Where it publishes, and under what public URL |
-| `tools/publish.py` | The sync. Dry run by default |
-| `tools/upload_data.py` | The data upload. Dry run by default |
-| `tests/` | The gates CI runs on every pull request |
-| `docs/conformance.md` | Any validator finding this catalog accepts, and why |
-| `SETUP.md` | The checklist. Delete it when you are done |
+## Refresh from the source
+
+The commands run from the parent of this repository. They need
+[portolan-cli](https://github.com/portolan-sdi/portolan-cli) 0.8.0, gpio,
+tippecanoe, DuckDB, and uv.
+
+1. Extract the layers into `east-hampton-raw`. Pass list positions to
+   `--layers`, because of
+   [portolan-cli#1003](https://github.com/portolan-sdi/portolan-cli/issues/1003).
+   ```bash
+   portolan extract arcgis \
+     https://eh-gis.ehamptonny.gov/arcgis/rest/services/MapServiceForOpenGov/MapServer \
+     east-hampton-raw --auto --id east-hampton-catalog \
+     --license other \
+     --license-url https://source.coop/portolan-mirrors/east-hampton-catalog/LICENSE.md \
+     --layers 0,1,2,3,4,5,6,7,8,10,11,12,13,14,15,16,17,18,19,20,21,23,24,25,26,28,32,35,36,38,39,40,43,45,46,55,56,57
+   ```
+2. Write the styles, check them against the data, and build the staging tree.
+   ```bash
+   cd east-hampton-catalog
+   uv run tools/styles.py
+   uv run tools/build_catalog.py prepare
+   uv run tools/check_styles.py
+   ```
+3. Register the files and generate the tiles.
+   ```bash
+   cd ../east-hampton-staging
+   portolan add . --pmtiles --force --no-thumbnails
+   ```
+4. Write the column descriptions and the agent guides, then the READMEs.
+   ```bash
+   cd ../east-hampton-catalog
+   uv run tools/build_catalog.py enrich
+   cd ../east-hampton-staging
+   portolan readme
+   ```
+5. Render the thumbnails with the `portolan-thumbnails` skill and the frames in
+   `tools/thumbnails.tsv`. Then refresh the checksums.
+   ```bash
+   portolan check --fix
+   portolan check
+   ```
+6. Copy the generated metadata into `catalog/` and run the gates.
+   ```bash
+   cd ../east-hampton-catalog
+   uv run tools/build_catalog.py sync
+   python3 tests/run_all.py
+   ```
 
 ## Publish
 
-```bash
-python3 tools/publish.py            # dry run: what would change
-python3 tools/publish.py --confirm  # upload; needs AWS credentials
-```
-
-It never deletes. Removing a file from `catalog/` does not unpublish it, so
-delete the object yourself if that is what you meant.
-
-## Upload the data
-
-The data is too large for git, so it lives outside `catalog/`.
-`tools/upload_data.py` carries it to the same bucket prefix. Set `data_dir` in
-`catalog.publish.yaml` to the directory that holds it.
+Uploads go through the `data.source.coop` gateway with the
+`source-coop-proxy` AWS profile. Each script is a dry run until you pass
+`--confirm`.
 
 ```bash
-python3 tools/upload_data.py            # dry run: what would change
-python3 tools/upload_data.py --confirm  # upload; needs AWS credentials
+source-coop login
+python3 tools/upload_data.py
+python3 tools/upload_data.py --confirm
+python3 tools/publish.py
+python3 tools/publish.py --confirm
 ```
 
-Both scripts share one set of rules. `upload_data.py` imports the sentinel
-guard, the content types, the change detection, and the upload pool from
-`publish.py`. It changes one thing, the directory it walks. Only the suffixes
-in its allow-list upload, so staged scratch files stay out of the bucket.
+## Gates
 
-## Test
-
-```bash
-python3 tests/run_all.py
-```
-
-| Gate | What it checks |
-|---|---|
-| `test_setup.py` | Template placeholders are all edited, or all untouched |
-| `test_links.py` | Every relative link and asset href resolves |
-| `test_publish.py` | Nothing outside `catalog/` can be uploaded |
-| `test_upload_data.py` | Only staged files with an allowed suffix upload |
-| `test_stac_valid.py` | Valid STAC 1.1.0, via `stac-check` |
-| `test_conformance.py` | Portolan conformance, via `rashid` |
-
-The two validator gates skip when their tools are absent, so a clean checkout
-runs with no setup. CI installs both and enforces them.
-
-## What this template does not decide
-
-How a published catalog points back at the repository that maintains it. Three
-encodings are in use across real catalogs and none is standardized, so this
-template ships none of them rather than freezing one in by default. The
-tradeoffs are in
-[portolan-spec#145](https://github.com/portolan-sdi/portolan-spec/issues/145)
-and in the
-[git-backed catalogs guidance](https://github.com/portolan-sdi/portolan-spec/blob/main/specs/best-practices/git-backed-catalogs.md).
-
-## License
-
-Apache-2.0, covering the tooling in this repository. The data you catalog
-carries its own license, which belongs in `catalog/README.md`.
+`python3 tests/run_all.py` runs the link check, the publish and upload
+contracts, STAC validation, and `rashid` conformance. CI runs the same gates
+with `CI_LIGHT=1`, which skips the data files that are not in git.

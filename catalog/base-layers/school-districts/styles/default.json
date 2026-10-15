@@ -1,0 +1,52 @@
+{
+  "version": 8,
+  "name": "School Districts by school district",
+  "metadata": {
+    "description": "Fill color shows the `ID` column. See the column description for the meaning of each code."
+  },
+  "sources": {
+    "data": {
+      "type": "vector"
+    }
+  },
+  "layers": [
+    {
+      "id": "school-districts-fill",
+      "type": "fill",
+      "source": "data",
+      "source-layer": "school-districts",
+      "paint": {
+        "fill-color": [
+          "match",
+          [
+            "get",
+            "ID"
+          ],
+          "AMAGANSETT SD",
+          "#66c2a5",
+          "EAST HAMPTON SD",
+          "#fc8d62",
+          "MONTAUK SD",
+          "#8da0cb",
+          "SPRINGS SD",
+          "#e78ac3",
+          "WAINSCOTT SD",
+          "#a6d854",
+          "#bdbdbd"
+        ],
+        "fill-opacity": 0.75
+      }
+    },
+    {
+      "id": "school-districts-outline",
+      "type": "line",
+      "source": "data",
+      "source-layer": "school-districts",
+      "paint": {
+        "line-color": "#ffffff",
+        "line-width": 0.6,
+        "line-opacity": 0.8
+      }
+    }
+  ]
+}

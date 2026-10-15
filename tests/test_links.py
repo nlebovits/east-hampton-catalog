@@ -6,9 +6,11 @@ directory it points at exists. Dependency-free and offline, so it runs in
 milliseconds on a clean checkout.
 
 CI clones the metadata and not the bytes, because .gitignore keeps data out of
-git. Set CI_LIGHT=1 there. It exempts asset hrefs with a data suffix, and
-nothing else. Every structural link still resolves. Leave CI_LIGHT unset
-locally, where the bytes are on disk, and the gate checks every href.
+git. Set CI_LIGHT=1 there. It exempts hrefs with a data suffix, in links (such
+as rel:pmtiles) and in assets, and nothing else. Every structural link still
+resolves. Leave CI_LIGHT unset locally. The gate then checks every href, and
+it looks for a data file under data_dir from catalog.publish.yaml, which
+mirrors the catalog layout.
 
 Run: python3 tests/test_links.py
 """
@@ -24,6 +26,7 @@ from publish import load_config  # noqa: E402
 
 config = load_config()
 BASE = ROOT / config["publish_dir"]
+DATA = (ROOT / config["data_dir"]).resolve() if config.get("data_dir") else None
 
 errors: list[str] = []
 skipped = 0
@@ -44,6 +47,20 @@ def is_remote(href: str) -> bool:
 def is_unpublished_data(href: str) -> bool:
     """True when href points at a file kept out of git on purpose."""
     return CI_LIGHT and href.lower().endswith(DATA_SUFFIXES)
+
+
+def resolves(doc_path: Path, href: str) -> bool:
+    """True when href exists in the catalog, or as a staged data file."""
+    target = (doc_path.parent / href).resolve()
+    if target.exists():
+        return True
+    if DATA is None or not href.lower().endswith(DATA_SUFFIXES):
+        return False
+    try:
+        rel = target.relative_to(BASE.resolve())
+    except ValueError:
+        return False
+    return (DATA / rel).exists()
 
 
 def stac_documents() -> list[Path]:
@@ -77,8 +94,11 @@ for path in documents:
         href = link.get("href", "")
         if not href or is_remote(href):
             continue
+        if is_unpublished_data(href):
+            skipped += 1
+            continue
         checked += 1
-        if not (path.parent / href).resolve().exists():
+        if not resolves(path, href):
             errors.append(
                 f"{rel_path}: rel:{link.get('rel')} -> {href} does not exist"
             )
@@ -91,7 +111,7 @@ for path in documents:
             skipped += 1
             continue
         checked += 1
-        if not (path.parent / href).resolve().exists():
+        if not resolves(path, href):
             errors.append(f"{rel_path}: asset {key} -> {href} does not exist")
 
 if skipped:

@@ -1,0 +1,35 @@
+{
+  "version": 8,
+  "name": "Peconic Estuary Critical Natural Resource Areas",
+  "metadata": {
+    "description": "Peconic Estuary Critical Natural Resource Areas in one color."
+  },
+  "sources": {
+    "data": {
+      "type": "vector"
+    }
+  },
+  "layers": [
+    {
+      "id": "pep-cnras-fill",
+      "type": "fill",
+      "source": "data",
+      "source-layer": "pep-cnras",
+      "paint": {
+        "fill-color": "#fc9272",
+        "fill-opacity": 0.6
+      }
+    },
+    {
+      "id": "pep-cnras-outline",
+      "type": "line",
+      "source": "data",
+      "source-layer": "pep-cnras",
+      "paint": {
+        "line-color": "#cb181d",
+        "line-width": 0.6,
+        "line-opacity": 0.8
+      }
+    }
+  ]
+}

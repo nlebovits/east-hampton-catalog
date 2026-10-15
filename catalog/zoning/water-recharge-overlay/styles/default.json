@@ -1,0 +1,35 @@
+{
+  "version": 8,
+  "name": "Water Recharge Overlay District",
+  "metadata": {
+    "description": "Water Recharge Overlay District in one color."
+  },
+  "sources": {
+    "data": {
+      "type": "vector"
+    }
+  },
+  "layers": [
+    {
+      "id": "water-recharge-overlay-fill",
+      "type": "fill",
+      "source": "data",
+      "source-layer": "water-recharge-overlay",
+      "paint": {
+        "fill-color": "#7fcdbb",
+        "fill-opacity": 0.55
+      }
+    },
+    {
+      "id": "water-recharge-overlay-outline",
+      "type": "line",
+      "source": "data",
+      "source-layer": "water-recharge-overlay",
+      "paint": {
+        "line-color": "#225ea8",
+        "line-width": 0.6,
+        "line-opacity": 0.8
+      }
+    }
+  ]
+}

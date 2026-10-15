@@ -1,0 +1,50 @@
+{
+  "version": 8,
+  "name": "Historic Districts by historic district",
+  "metadata": {
+    "description": "Fill color shows the `Historic_District` column. See the column description for the meaning of each code."
+  },
+  "sources": {
+    "data": {
+      "type": "vector"
+    }
+  },
+  "layers": [
+    {
+      "id": "historic-districts-fill",
+      "type": "fill",
+      "source": "data",
+      "source-layer": "historic-districts",
+      "paint": {
+        "fill-color": [
+          "match",
+          [
+            "get",
+            "Historic_District"
+          ],
+          "Amagansett",
+          "#a6611a",
+          "Bluff Road",
+          "#dfc27d",
+          "Montauk",
+          "#80cdc1",
+          "Springs",
+          "#018571",
+          "#bdbdbd"
+        ],
+        "fill-opacity": 0.75
+      }
+    },
+    {
+      "id": "historic-districts-outline",
+      "type": "line",
+      "source": "data",
+      "source-layer": "historic-districts",
+      "paint": {
+        "line-color": "#ffffff",
+        "line-width": 0.6,
+        "line-opacity": 0.8
+      }
+    }
+  ]
+}

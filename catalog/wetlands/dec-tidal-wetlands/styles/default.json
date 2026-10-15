@@ -1,0 +1,60 @@
+{
+  "version": 8,
+  "name": "NYSDEC Tidal Wetlands by tidal wetland category",
+  "metadata": {
+    "description": "Fill color shows the `TWCAT74` column. See the column description for the meaning of each code."
+  },
+  "sources": {
+    "data": {
+      "type": "vector"
+    }
+  },
+  "layers": [
+    {
+      "id": "dec-tidal-wetlands-fill",
+      "type": "fill",
+      "source": "data",
+      "source-layer": "dec-tidal-wetlands",
+      "paint": {
+        "fill-color": [
+          "match",
+          [
+            "get",
+            "TWCAT74"
+          ],
+          "IM",
+          "#1b7837",
+          "HM",
+          "#5aae61",
+          "FM",
+          "#a6dba0",
+          "FC",
+          "#c2a5cf",
+          "SM",
+          "#dfc27d",
+          "LZ",
+          "#deebf7",
+          "AA",
+          "#d9d9d9",
+          "DS",
+          "#8c510a",
+          "HL",
+          "#f7f7f7",
+          "#bdbdbd"
+        ],
+        "fill-opacity": 0.75
+      }
+    },
+    {
+      "id": "dec-tidal-wetlands-outline",
+      "type": "line",
+      "source": "data",
+      "source-layer": "dec-tidal-wetlands",
+      "paint": {
+        "line-color": "#ffffff",
+        "line-width": 0.6,
+        "line-opacity": 0.8
+      }
+    }
+  ]
+}

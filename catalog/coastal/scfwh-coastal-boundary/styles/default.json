@@ -1,0 +1,32 @@
+{
+  "version": 8,
+  "name": "SCFWH Coastal Boundary",
+  "metadata": {
+    "description": "SCFWH Coastal Boundary in one color."
+  },
+  "sources": {
+    "data": {
+      "type": "vector"
+    }
+  },
+  "layers": [
+    {
+      "id": "scfwh-coastal-boundary-line",
+      "type": "line",
+      "source": "data",
+      "source-layer": "scfwh-coastal-boundary",
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "#006d2c",
+        "line-width": 2.0,
+        "line-dasharray": [
+          3,
+          2
+        ]
+      }
+    }
+  ]
+}

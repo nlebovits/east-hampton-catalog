@@ -1,0 +1,56 @@
+{
+  "version": 8,
+  "name": "FEMA Flood Zones, 2009 by flood zone",
+  "metadata": {
+    "description": "Fill color shows the `FLD_ZONE` column. See the column description for the meaning of each code."
+  },
+  "sources": {
+    "data": {
+      "type": "vector"
+    }
+  },
+  "layers": [
+    {
+      "id": "flood-zones-fill",
+      "type": "fill",
+      "source": "data",
+      "source-layer": "flood-zones",
+      "paint": {
+        "fill-color": [
+          "match",
+          [
+            "get",
+            "FLD_ZONE"
+          ],
+          "VE",
+          "#08306b",
+          "V",
+          "#2171b5",
+          "AE",
+          "#4292c6",
+          "A",
+          "#6baed6",
+          "AO",
+          "#9ecae1",
+          "0.2 PCT ANNUAL CHANCE FLOOD HAZARD",
+          "#deebf7",
+          "OPEN WATER",
+          "#a6bddb",
+          "#bdbdbd"
+        ],
+        "fill-opacity": 0.75
+      }
+    },
+    {
+      "id": "flood-zones-outline",
+      "type": "line",
+      "source": "data",
+      "source-layer": "flood-zones",
+      "paint": {
+        "line-color": "#ffffff",
+        "line-width": 0.6,
+        "line-opacity": 0.8
+      }
+    }
+  ]
+}
