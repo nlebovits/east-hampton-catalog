@@ -52,7 +52,7 @@
     "https://stac-extensions.github.io/projection/v2.0.0/schema.json",
     "https://stac-extensions.github.io/table/v1.2.0/schema.json",
     "https://stac-extensions.github.io/file/v2.1.0/schema.json",
-    "https://schemas.portolan-sdi.org/portolan/v0.2.0/schema.json",
+    "https://schemas.portolan-sdi.org/portolan/v0.3.0/schema.json",
     "https://stac-extensions.github.io/web-map-links/v1.3.0/schema.json"
   ],
   "updated": "2026-10-15T11:43:49Z",
@@ -154,7 +154,7 @@
       "file:size": 328014,
       "file:checksum": "1220c115f3048653bc1d49427dff7e3991e1202183c5ccaa99dfc8ea7b12a2865fd6",
       "roles": [
-        "data"
+        "visual"
       ]
     },
     "styles/default": {
